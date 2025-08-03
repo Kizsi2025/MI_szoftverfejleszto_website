@@ -1,16 +1,12 @@
-// server.js (backend gyökér)
+// server.js - helyes verzió
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const db = require('./server/models'); // <- Ez a módosítás
+const db = require('./server/models');
 require('dotenv').config();
-const lessonsRoutes = require('./server/routes/lessons');
-app.use('/api/lessons', lessonsRoutes);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
-console.log('🔧 Szerver inicializálás...');
 
 // Middleware
 app.use(helmet());
@@ -18,24 +14,26 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log('✅ Middleware-ek betöltve');
+// Route-ok importálása - CSAK EGYSZER!
+const authRoutes = require('./server/routes/auth');
+const lessonsRoutes = require('./server/routes/lessons');  // <- CSAK egyszer!
+const progressRoutes = require('./server/routes/progress');
+const pitchesRoutes = require('./server/routes/pitches');
 
-// server.js - a testDatabaseConnection függvényben
+// Adatbázis kapcsolat tesztelése
 async function testDatabaseConnection() {
   try {
     await db.sequelize.authenticate();
     console.log('✅ Adatbázis kapcsolat sikeres');
     
-    // Táblák szinkronizálása (fejlesztés során)
     if (process.env.NODE_ENV === 'development') {
-      await db.sequelize.sync({ force: false, alter: false }); // <- Biztonságosabb
+      await db.sequelize.sync({ force: false, alter: false });
       console.log('✅ Adatbázis táblák szinkronizálva');
     }
   } catch (error) {
     console.error('❌ Adatbázis kapcsolat sikertelen:', error.message);
   }
 }
-
 
 // Alapvető route-ok
 app.get('/', (req, res) => {
@@ -58,27 +56,6 @@ app.get('/api/health', (req, res) => {
     uptime: process.uptime()
   });
 });
-
-// server.js - add hozzá ezt a részt a route-ok szakaszhoz
-
-// Route-ok importálása
-const authRoutes = require('./server/routes/auth');
-
-// Route-ok használata
-app.use('/api/auth', authRoutes);
-
-// Védett test endpoint
-app.get('/api/protected-test', 
-  require('./server/middleware/auth').authenticateToken, 
-  (req, res) => {
-    res.json({
-      message: '🎉 Hozzáférés engedélyezve!',
-      user: req.user,
-      timestamp: new Date().toISOString()
-    });
-  }
-);
-
 
 // Adatbázis teszt endpoint
 app.get('/api/test-db', async (req, res) => {
@@ -103,6 +80,12 @@ app.get('/api/test-db', async (req, res) => {
   }
 });
 
+// Route-ok használata
+app.use('/api/auth', authRoutes);
+app.use('/api/lessons', lessonsRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/pitches', pitchesRoutes);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('❌ Hiba történt:', err);
@@ -121,7 +104,6 @@ const server = app.listen(PORT, async () => {
   console.log(`🚀 URL: http://localhost:${PORT}`);
   console.log('🚀 ========================================');
   
-  // Adatbázis kapcsolat inicializálása
   await testDatabaseConnection();
 });
 
