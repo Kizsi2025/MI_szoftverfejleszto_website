@@ -1,0 +1,226 @@
+/* src/components/lessons/LessonCard.css */
+.lesson-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.lesson-card:hover:not(.disabled) {
+  transform: translateY(-5px);
+  border-color: rgba(97, 218, 251, 0.5);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.lesson-card.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.lesson-card.not-started {
+  border-left: 4px solid #ffd700;
+}
+
+.lesson-card.in-progress {
+  border-left: 4px solid #61dafb;
+  background: linear-gradient(135deg, rgba(97, 218, 251, 0.1) 0%, rgba(97, 218, 251, 0.05) 100%);
+}
+
+.lesson-card.completed {
+  border-left: 4px solid #4caf50;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+}
+
+.lesson-card.locked {
+  border-left: 4px solid #666;
+  background: linear-gradient(135deg, rgba(102, 102, 102, 0.1) 0%, rgba(102, 102, 102, 0.05) 100%);
+}
+
+.lesson-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.lesson-module {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.module-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.game-theme {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.not-started {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.status-badge.in-progress {
+  background: rgba(97, 218, 251, 0.2);
+  color: #61dafb;
+}
+
+.status-badge.completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.status-badge.locked {
+  background: rgba(102, 102, 102, 0.2);
+  color: #999;
+}
+
+.lesson-content {
+  margin-bottom: 20px;
+}
+
+.lesson-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.lesson-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.lesson-objectives {
+  margin-top: 15px;
+}
+
+.lesson-objectives h4 {
+  font-size: 0.9rem;
+  color: #61dafb;
+  margin-bottom: 8px;
+}
+
+.lesson-objectives ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson-objectives li {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 5px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.lesson-objectives li:before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #ffd700;
+}
+
+.lesson-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.points-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.initial-points {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-weight: 500;
+}
+
+.earned-points {
+  font-size: 0.8rem;
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.activities-count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+}
+
+.lock-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.lock-overlay p {
+  color: white;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .lesson-card {
+    padding: 15px;
+  }
+  
+  .lesson-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .lesson-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .lesson-title {
+    font-size: 1.1rem;
+  }
+}

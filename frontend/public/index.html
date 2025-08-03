@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="description" content="MI Szoftvertechnikus gamifikált tanulási platform - A 13. évfolyamos szoftverfejlesztő és tesztelő technikus tanulók számára készült interaktív MI oktatási rendszer" />
+    
+    <!-- Open Graph meta tagek -->
+    <meta property="og:title" content="MI Szoftvertechnikus Platform" />
+    <meta property="og:description" content="Gamifikált MI tanulási élmény szoftverfejlesztőknek" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Apple touch ikonok -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+    <!-- Manifest fájl PWA támogatáshoz -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Google Fonts betöltése -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Material-UI ikonok -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    
+    <title>MI Szoftvertechnikus Platform</title>
+    
+    <style>
+      /* Loading screen stílusok */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        font-family: 'Roboto', sans-serif;
+        color: white;
+      }
+      
+      .loading-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+        animation: pulse 1.5s ease-in-out infinite alternate;
+      }
+      
+      .loading-title {
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      
+      .loading-subtitle {
+        font-size: 16px;
+        font-weight: 300;
+        margin-bottom: 30px;
+        text-align: center;
+        opacity: 0.8;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Alapvető stílusok a fő alkalmazáshoz */
+      body {
+        margin: 0;
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f5f5f5;
+      }
+      
+      code {
+        font-family: 'Fira Code', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+          monospace;
+      }
+      
+      /* Gamifikációs elemek alapjai */
+      .points-animation {
+        animation: pointsGlow 0.5s ease-in-out;
+      }
+      
+      @keyframes pointsGlow {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); color: #4caf50; }
+        100% { transform: scale(1); }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+        <h2>🚨 JavaScript szükséges!</h2>
+        <p>A MI Szoftvertechnikus Platform használatához engedélyezned kell a JavaScript-et a böngésződben.</p>
+        <p>JavaScript nélkül a gamifikált tanulási élmény és az interaktív funkciók nem működnek.</p>
+      </div>
+    </noscript>
+    
+    <!-- Loading screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-logo">🧠</div>
+      <div class="loading-title">MI Szoftvertechnikus platform</div>
+      <div class="loading-subtitle">Gamifikált MI tanulás betöltése...</div>
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- React alkalmazás konténer -->
+    <div id="root"></div>
+    
+    <!-- JavaScript a loading screen eltüntetésére -->
+    <script>
+      // Loading screen eltüntetése amikor a React app betöltött
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(function() {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000); // 1 másodperc loading animáció
+      });
+      
+      
+      
+      // Gamifikációs pontszám animáció globális függvény
+      window.animatePoints = function(element) {
+        element.classList.add('points-animation');
+        setTimeout(() => {
+          element.classList.remove('points-animation');
+        }, 500);
+      };
+    </script>
+  </body>
+</html>
