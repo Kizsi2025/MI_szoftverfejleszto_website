@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiképzés I: Az MI szoftverfejlesztői kódexe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Tech Neutrals -->
+    <!-- Application Structure Plan: A linear, scroll-based narrative structure is used, broken into visually distinct, interactive sections. The user flow starts with a hero section, moves to definitions, then an interactive timeline for history, side-by-side cards for AI types, an accordion for applications, and finally an interactive quiz. This structure turns a static presentation into an engaging learning module, ideal for the target student audience, by encouraging exploration and providing immediate feedback. -->
+    <!-- Visualization & Content Choices: History -> Interactive Timeline (Vanilla JS) to make a long text block digestible. AI Types -> Side-by-Side Cards (HTML/Tailwind) for clear comparison. Applications -> Accordion (Vanilla JS) to present detailed info cleanly. Quiz -> Interactive Form (Vanilla JS) for gamified knowledge check and instant feedback. These choices prioritize user engagement and clarity over static text. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            left: -0.625rem;
+            top: 0;
+            background-color: #cbd5e1;
+            border: 4px solid #f1f5f9;
+        }
+        .timeline-item.active::before {
+            background-color: #3b82f6;
+            border-color: #dbeafe;
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 smooth-scroll">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <ul class="flex space-x-4 md:space-x-6">
+                <li><a href="#definico" class="text-slate-600 hover:text-blue-600 transition-colors">Definíció</a></li>
+                <li><a href="#tortenet" class="text-slate-600 hover:text-blue-600 transition-colors">Történet</a></li>
+                <li><a href="#tipusok" class="text-slate-600 hover:text-blue-600 transition-colors">Típusok</a></li>
+                <li><a href="#alkalmazasok" class="text-slate-600 hover:text-blue-600 transition-colors">Alkalmazások</a></li>
+                <li><a href="#kviz" class="text-slate-600 hover:text-blue-600 transition-colors">Villámkvíz</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="text-center py-16 md:py-24">
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-4">Kiképzés I: Az MI szoftverfejlesztői kódexe</h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">Útmutató az intelligens szoftverfejlesztési stúdió felépítéséhez. Üdvözöljük, MI Szakértők! A mai küldetésünk, hogy megértsük a leghatékonyabb eszközünket: a mesterséges intelligenciát.</p>
+            <img src="https://placehold.co/1200x400/020617/3b82f6?text=MI+a+szoftverfejleszt%C3%A9sben" alt="Absztrakt kép a mesterséges intelligenciáról és a kódról" class="w-full max-w-5xl mx-auto rounded-xl shadow-lg">
+        </section>
+
+        <section id="definico" class="mb-16 md:mb-24 scroll-mt-20">
+            <div class="bg-white p-8 rounded-xl shadow-md max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 text-center">Mi az MI a szoftverfejlesztésben?</h2>
+                <p class="text-lg text-slate-700 text-center mb-6">A mesterséges intelligencia a szoftverfejlesztésben olyan rendszerek létrehozását jelenti, amelyek képesek az emberi intelligenciát igénylő feladatok elvégzésére. A célunk nem az, hogy lecseréljük a fejlesztőket, hanem hogy szuperképességekkel ruházzuk fel őket.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-slate-100 p-6 rounded-lg">
+                        <h3 class="font-bold text-blue-600 text-xl mb-2">Tanulás</h3>
+                        <p class="text-slate-600">A rendszerek tanulnak a kódból és adatokból, hogy folyamatosan fejlődjenek.</p>
+                    </div>
+                    <div class="bg-slate-100 p-6 rounded-lg">
+                        <h3 class="font-bold text-blue-600 text-xl mb-2">Felismerés</h3>
+                        <p class="text-slate-600">Komplex mintázatokat ismernek fel a kódbázisban és a fejlesztési folyamatokban.</p>
+                    </div>
+                    <div class="bg-slate-100 p-6 rounded-lg">
+                        <h3 class="font-bold text-blue-600 text-xl mb-2">Automatizálás</h3>
+                        <p class="text-slate-600">Előrejelzéseket tesznek és automatikusan cselekszenek a hatékonyság növelése érdekében.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tortenet" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-slate-900 mb-2 text-center">Az MI fejlődésének története</h2>
+            <p class="text-lg text-slate-600 text-center mb-12 max-w-3xl mx-auto">Fedezzük fel, hogyan jutottunk el a korai elméletektől a mai modern, kódgeneráló MI-kig. Kattintson az egyes korszakokra a részletekért!</p>
+            <div class="flex flex-col md:flex-row gap-8 md:gap-12 max-w-6xl mx-auto">
+                <div class="w-full md:w-1/3">
+                    <div id="timeline-nav" class="relative border-l-2 border-slate-200 pl-8 space-y-8">
+                        <button data-target="kezdetek" class="timeline-item active w-full text-left">
+                            <h3 class="font-bold text-lg">A kezdetek</h3>
+                            <p class="text-sm text-slate-500">1950-es évek</p>
+                        </button>
+                        <button data-target="elso-tel" class="timeline-item w-full text-left">
+                            <h3 class="font-bold text-lg">Az első „MI tél”</h3>
+                            <p class="text-sm text-slate-500">1974–1980</p>
+                        </button>
+                        <button data-target="szakerto" class="timeline-item w-full text-left">
+                            <h3 class="font-bold text-lg">A szakértői rendszerek</h3>
+                            <p class="text-sm text-slate-500">1980-as évek</p>
+                        </button>
+                        <button data-target="masodik-tel" class="timeline-item w-full text-left">
+                            <h3 class="font-bold text-lg">A második „MI tél”</h3>
+                            <p class="text-sm text-slate-500">1987–1993</p>
+                        </button>
+                        <button data-target="forradalom" class="timeline-item w-full text-left">
+                            <h3 class="font-bold text-lg">A Deep Learning forradalma</h3>
+                            <p class="text-sm text-slate-500">2010-es évektől napjainkig</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 bg-white p-8 rounded-xl shadow-md">
+                    <div id="timeline-content">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipusok" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-slate-900 mb-2 text-center">Az MI két arca</h2>
+            <p class="text-lg text-slate-600 text-center mb-12 max-w-3xl mx-auto">Fontos megértenünk, hogy az MI-nek két alapvető típusa van. Az egyikkel nap mint nap találkozunk, a másik pedig még a jövő zenéje.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-blue-400 flex flex-col">
+                    <img src="https://placehold.co/600x400/e0f2fe/0ea5e9?text=F%C3%B3kusz%C3%A1lt+k%C3%A9pess%C3%A9g" alt="Gyenge MI-t szimbolizáló kép" class="w-full h-auto rounded-lg mb-6">
+                    <h3 class="text-2xl font-bold mb-4">Gyenge MI (Weak / Narrow AI)</h3>
+                    <p class="text-slate-600 mb-4 flex-grow">Egyetlen, jól körülhatárolt feladatra specializálódott. Nem rendelkezik általános intelligenciával, de a saját területén szuperhumán teljesítményre képes.</p>
+                    <div class="bg-slate-100 p-4 rounded-lg mt-auto">
+                        <p class="font-semibold text-slate-800">Szoftverfejlesztői példa:</p>
+                        <p class="text-slate-600 mt-1">A **GitHub Copilot**, amely a kontextus alapján javasol kódrészleteket, de nem képes egy teljes, komplex szoftvert önállóan megtervezni és lefejleszteni.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-purple-400 flex flex-col">
+                    <img src="https://placehold.co/600x400/e0e7ff/4f46e5?text=%C3%81ltal%C3%A1nos+intelligencia" alt="Erős MI-t szimbolizáló kép" class="w-full h-auto rounded-lg mb-6">
+                    <h3 class="text-2xl font-bold mb-4">Erős MI (Strong / General AI)</h3>
+                    <p class="text-slate-600 mb-4 flex-grow">Emberi szintű, általános intelligenciával rendelkező, elméleti MI. Képes lenne bármilyen intellektuális feladatot megérteni és elvégezni, amit egy ember.</p>
+                    <div class="bg-slate-100 p-4 rounded-lg mt-auto">
+                        <p class="font-semibold text-slate-800">Szoftverfejlesztői példa:</p>
+                        <p class="text-slate-600 mt-1">Jelenleg ez a **tudományos-fantasztikus irodalom tárgya**. Egy olyan rendszer lenne, amely önállóan felméri a piaci igényeket, megtervezi, lekódolja, leteszteli és üzemelteti a szoftvert.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alkalmazasok" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-slate-900 mb-2 text-center">MI a gyakorlatban: A Mi eszköztárunk</h2>
+            <p class="text-lg text-slate-600 text-center mb-12 max-w-3xl mx-auto">Nézzünk néhány konkrét példát, amivel egy modern szoftvercég hatékonyságát növelhetjük. Kattintson a kártyákra a részletekért!</p>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <div class="accordion-item bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <h3 class="text-xl font-bold">🚀 Intelligens kódgenerálás</h3>
+                        <span class="accordion-icon transition-transform transform text-2xl text-slate-500">+</span>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-slate-600">Eszközök, mint a **GitHub Copilot** vagy a **Tabnine**, amelyek a meglévő kódbázis és a fejlesztő szándéka alapján generálnak kódot, csökkentve a gépelési időt és a hibalehetőségeket. Ezáltal a fejlesztők a magasabb szintű problémák megoldására koncentrálhatnak.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <h3 class="text-xl font-bold">🧪 Automatizált tesztelés</h3>
+                        <span class="accordion-icon transition-transform transform text-2xl text-slate-500">+</span>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-slate-600">MI-alapú rendszerek, amelyek képesek önállóan teszteseteket generálni, azonosítani a szoftver sebezhetőségeit (pl. biztonsági rések) és optimalizálni a tesztelési folyamatot. Jelentősen növelik a tesztelési lefedettséget és csökkentik a manuális munkát.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <h3 class="text-xl font-bold">🐞 Prediktív Hibakeresés</h3>
+                        <span class="accordion-icon transition-transform transform text-2xl text-slate-500">+</span>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                        <div class="p-6 pt-0">
+                            <p class="text-slate-600">Algoritmusok, amelyek a korábbi hibákból (pl. Jira, Git history) és a kódbázis komplexitásából tanulva előre jelzik, hol a legvalószínűbb egy új hiba felbukkanása. Ez lehetővé teszi a proaktív hibajavítást, még mielőtt a felhasználók találkoznának a problémával.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kviz" class="scroll-mt-20">
+            <div class="bg-blue-600 text-white p-8 md:p-12 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-2 text-center">Villámkvíz: Szerezzetek TIP-eket!</h2>
+                <p class="text-lg text-blue-200 text-center mb-8">Most lássuk, mennyire értitek az alapokat! Minden helyes válaszért a csapat +5 Technológiai Innovációs Pontot (TIP) kap.</p>
+                <div id="quiz-container" class="space-y-6">
+                </div>
+                <div class="text-center mt-8">
+                    <button id="submit-quiz" class="bg-white text-blue-600 font-bold py-3 px-8 rounded-lg hover:bg-blue-100 transition-colors shadow-md">Válaszok ellenőrzése</button>
+                </div>
+                <div id="quiz-result" class="text-center mt-8 text-2xl font-bold" style="display: none;">
+                    <p>Elért pontszám: <span id="tip-score">0</span> TIP</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 mt-12">
+        <p class="text-slate-500">&copy; 2025 Intelligens Szoftverfejlesztési Stúdió. Minden jog fenntartva.</p>
+    </footer>
+
+    <script>
+        const timelineData = {
+            "kezdetek": {
+                title: "A kezdetek (1950-es évek): A koncepció megszületése",
+                content: "A terület hivatalos születésnapját 1956-ra tehetjük, a híres Dartmouthi Konferenciára. Itt hangzott el először a „mesterséges intelligencia” kifejezés. Olyan úttörők, mint John McCarthy, Marvin Minsky és Claude Shannon fektették le az alapokat. Ebben az időszakban született meg Alan Turing híres „Turing-tesztje” is. A korai szoftveres próbálkozások, mint a Logic Theorist, már képesek voltak matematikai tételeket bizonyítani. Ekkoriban fejlesztették ki a LISP programozási nyelvet is, ami évtizedekig az MI-kutatás elsődleges nyelve volt."
+            },
+            "elso-tel": {
+                title: "Az első „MI tél” (1970-es évek közepe – 1980-as évek eleje)",
+                content: "A kezdeti optimizmust hamarosan a kiábrándultság követte. A kutatók túl nagy ígéreteket tettek, de a számítási kapacitás és az algoritmusok fejlettsége nem tudott lépést tartani a víziókkal. A gépi fordítás és a beszédfelismerés terén tett ígéretek nem valósultak meg, ami a finanszírozás drasztikus csökkenéséhez vezetett. Ez volt az első „MI tél”, amikor a kutatás lelassult."
+            },
+            "szakerto": {
+                title: "A szakértői rendszerek kora (1980-as évek)",
+                content: "Az MI a 80-as években tért vissza egy gyakorlatias formában: a szakértői rendszerekkel. Ezek a programok egy szűk területen (pl. orvosi diagnosztika) képesek voltak utánozni egy emberi szakértő döntéshozatali logikáját. A szoftverfejlesztés szempontjából ez azért volt fontos, mert a szabályalapú logikát és a tudásbázisok kezelését helyezte előtérbe."
+            },
+            "masodik-tel": {
+                title: "A második „MI tél” és a gépi tanulás felemelkedése (1980-as évek vége – 2000-es évek)",
+                content: "A szakértői rendszerek piaca is összeomlott. A háttérben azonban egy csendes forradalom zajlott: a gépi tanulás (Machine Learning) felemelkedése. A kutatók ahelyett, hogy kézzel írt szabályokkal próbálták volna megalkotni az intelligenciát, olyan algoritmusokat kezdtek fejleszteni, amelyek képesek voltak adatokból tanulni és mintázatokat felismerni."
+            },
+            "forradalom": {
+                title: "A Big Data és a Deep Learning forradalma (2010-es évektől napjainkig)",
+                content: "Az igazi áttörést a 2010-es évek hozták el. Három dolog együttes hatása kellett ehhez: hatalmas adatmennyiség (Big Data), megnövekedett számítási kapacitás (GPU-k), és algoritmikus áttörések (Deep Learning). A természetesnyelv-feldolgozás (NLP) fejlődése lehetővé tette a nagy nyelvi modellek (LLM-ek) létrehozását, amelyek képesek megérteni és generálni a programkódot is. Ez vezetett el minket a mai modern, MI-alapú fejlesztői eszközökig."
+            }
+        };
+
+        const timelineNav = document.getElementById('timeline-nav');
+        const timelineContent = document.getElementById('timeline-content');
+
+        function updateTimelineContent(targetId) {
+            const data = timelineData[targetId];
+            timelineContent.innerHTML = `
+                <h3 class="text-2xl font-bold mb-4 text-slate-900">${data.title}</h3>
+                <p class="text-slate-600 leading-relaxed">${data.content}</p>
+            `;
+            
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`.timeline-item[data-target="${targetId}"]`).classList.add('active');
+        }
+
+        timelineNav.addEventListener('click', (e) => {
+            const button = e.target.closest('button');
+            if (button) {
+                const targetId = button.dataset.target;
+                updateTimelineContent(targetId);
+            }
+        });
+
+        updateTimelineContent('kezdetek');
+
+        const accordions = document.querySelectorAll('.accordion-item');
+        accordions.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = item.querySelector('.accordion-icon');
+            header.addEventListener('click', () => {
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.classList.remove('rotate-45');
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.classList.add('rotate-45');
+                }
+            });
+        });
+
+        const quizData = [
+            {
+                question: "Mi a legfőbb különbség a gyenge és az erős MI között szoftverfejlesztési szempontból?",
+                options: [
+                    "A gyenge MI csak Pythonban íródhat, az erős bármilyen nyelven.",
+                    "A gyenge MI egy specifikus feladatra jó, míg az erős MI általános, emberi szintű problémamegoldásra képes.",
+                    "A gyenge MI lassabb, mint az erős MI.",
+                    "A gyenge MI nem használ neurális hálókat."
+                ],
+                answer: "A gyenge MI egy specifikus feladatra jó, míg az erős MI általános, emberi szintű problémamegoldásra képes."
+            },
+            {
+                question: "Milyen típusú adatokra van szüksége egy MI-nek, hogy előre jelezze a lehetséges kódhibákat?",
+                options: [
+                    "Csak a felhasználói visszajelzésekre.",
+                    "A szoftver marketing anyagainak szövegére.",
+                    "Korábbi hibajegyekre, kódtörténetre és kód metrikákra.",
+                    "A fejlesztők kedvenc kávéjának típusára."
+                ],
+                answer: "Korábbi hibajegyekre, kódtörténetre és kód metrikákra."
+            },
+            {
+                question: "Hogyan gyorsíthatja fel egy MI a manuális kód review folyamatot?",
+                options: [
+                    "Automatikusan kávét főz a fejlesztőknek.",
+                    "Automatikusan javasol javításokat, keres stílushibákat és azonosít logikai problémákat.",
+                    "Zenét játszik a koncentráció segítésére.",
+                    "Megnöveli a monitor fényerejét."
+                ],
+                answer: "Automatikusan javasol javításokat, keres stílushibákat és azonosít logikai problémákat."
+            },
+            {
+                question: "Melyik a GitHub Copilot egyik fő funkciója?",
+                options: [
+                    "A kész szoftver eladása az interneten.",
+                    "A fejlesztő szándéka alapján kódrészleteket javasol és egészít ki.",
+                    "Vírusirtóként működik a fejlesztői gépen.",
+                    "Automatikusan megírja a teljes dokumentációt."
+                ],
+                answer: "A fejlesztő szándéka alapján kódrészleteket javasol és egészít ki."
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz');
+        const resultContainer = document.getElementById('quiz-result');
+        const tipScoreElement = document.getElementById('tip-score');
+
+        function buildQuiz() {
+            quizData.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'bg-white/20 p-6 rounded-lg';
+                
+                const questionText = document.createElement('p');
+                questionText.className = 'font-bold text-lg mb-4';
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionElement.appendChild(questionText);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'space-y-3';
+                
+                q.options.forEach(option => {
+                    const label = document.createElement('label');
+                    label.className = 'quiz-option block bg-white/90 text-slate-800 p-3 rounded-md cursor-pointer hover:bg-white transition-colors border-2 border-transparent';
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `question-${index}`;
+                    radio.value = option;
+                    radio.className = 'mr-3';
+
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(option));
+                    optionsContainer.appendChild(label);
+                });
+
+                questionElement.appendChild(optionsContainer);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        submitButton.addEventListener('click', () => {
+            let score = 0;
+            quizData.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                const options = document.querySelectorAll(`input[name="question-${index}"]`);
+                
+                options.forEach(opt => {
+                    const parentLabel = opt.parentElement;
+                    parentLabel.classList.remove('correct', 'incorrect');
+                    if(opt.value === q.answer) {
+                       parentLabel.classList.add('correct');
+                    }
+                });
+
+                if (selectedOption) {
+                    const parentLabel = selectedOption.parentElement;
+                    if (selectedOption.value === q.answer) {
+                        score += 5;
+                    } else {
+                        parentLabel.classList.add('incorrect');
+                    }
+                }
+            });
+
+            tipScoreElement.textContent = score;
+            resultContainer.style.display = 'block';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Ellenőrizve!';
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+
+        buildQuiz();
+
+    </script>
+</body>
+</html>

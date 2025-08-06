@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szoftverfejlesztési modernizációs terv - sablon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Professional Indigo -->
+    <!-- Application Structure Plan: A slide-based, single-page application structure was chosen to mimic a real presentation. This allows teams to focus on one section of their plan at a time, just like creating a slide deck. Navigation buttons (Previous/Next) provide a clear, linear user flow, guiding students through the required sections of the modernization plan. This is more user-friendly and structured for a presentation task than a simple long-form document. -->
+    <!-- Visualization & Content Choices: Report Info: Presentation sections -> Goal: Organize/Inform -> Viz/Presentation: Interactive slides with text areas -> Interaction: JS-powered slide navigation -> Justification: Using interactive slides with editable text areas transforms a static template into a dynamic workspace. Students can directly input their ideas, making the tool practical for completing the assignment. The step-by-step navigation ensures all parts of the plan are addressed. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .slide { display: none; animation: fadeIn 0.6s; }
+        .slide.active { display: block; }
+        textarea { resize: vertical; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-4xl">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800">Szoftverfejlesztői modernizációs terv</h1>
+            <div class="mt-4">
+                <label for="team-name" class="text-lg font-semibold text-indigo-600">Csapat neve:</label>
+                <input type="text" id="team-name" placeholder="[a csapat neve]" class="mt-1 w-full max-w-md mx-auto p-2 border border-slate-300 rounded-lg text-center text-lg">
+            </div>
+        </header>
+
+        <main id="presentation-container" class="bg-white rounded-2xl shadow-lg p-6 sm:p-10 min-h-[500px] flex flex-col justify-between">
+            <!-- Slide 1 -->
+            <div id="slide-1" class="slide active">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-6 border-b pb-3">1. dia: Probléma és MI-alapú megoldás</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Azonosított szoftverfejlesztési probléma:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="Írjátok le röviden a hagyományos szoftverfejlesztő cég problémáját, például: „Gyakori kódhibák, amelyek lassítják a fejlesztést.”"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Javasolt MI-alapú megoldás:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="Fogalmazzátok meg a javaslatotokat. Például: „MI-vezérelt statikus kódelemzést javaslunk, amely még a kód commit-olása előtt felismeri a hibákat.”"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Várható előnyök:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="Soroljatok fel 2-3 előnyt, amit az MI-megoldás hozhat, például: „Gyorsabb hibajavítás, jobb kódminőség, növekvő hatékonyság.”"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div id="slide-2" class="slide">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-6 border-b pb-3">2. dia: Az új szoftverfejlesztő technikus</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">A szoftverfejlesztő technikus új feladatai:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-28" placeholder="Írjátok le, hogyan változik meg a technikus munkája. Például: „A kódírás helyett a kódgeneráló eszközök felügyelete és finomhangolása válik a fő feladattá.”"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Szükséges új készségek:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-28" placeholder="Soroljatok fel 2-3 új készséget. Például: „MI-algoritmusok működésének alapvető megértése, intelligens fejlesztőeszközök hatékony kezelése, prompt engineering.”"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div id="slide-3" class="slide">
+                <h2 class="text-2xl font-bold text-indigo-700 mb-6 border-b pb-3">3. dia: A kihívás kezelése</h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Váratlan kihívás:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="A kihívás kártyán szereplő probléma megnevezése, például: „A megbízhatóság dilemmája.”"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Döntésünk:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="Írjátok le, hogyan reagáltatok a kihívásra. Befektettetek TIP-et, vagy kockáztattátok az elutasítást? Írjátok le a döntés mögötti indoklást is."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-lg font-semibold text-slate-700 mb-2">Végeredmény:</label>
+                        <textarea class="w-full p-3 border border-slate-200 rounded-lg h-24" placeholder="Mi lett a döntésetek eredménye? Pl. „Sikerült meggyőzni az ügyfelet, és megnyertük a projektet.”"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8 pt-6 border-t">
+                <button id="prevBtn" class="bg-slate-200 text-slate-700 font-bold py-2 px-6 rounded-lg hover:bg-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Előző</button>
+                <div id="slide-indicator" class="text-slate-500 font-semibold">1 / 3</div>
+                <button id="nextBtn" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors">Következő</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 3;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideIndicator = document.getElementById('slide-indicator');
+
+        function showSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            document.getElementById(`slide-${slideNumber}`).classList.add('active');
+            slideIndicator.textContent = `${slideNumber} / ${totalSlides}`;
+            
+            prevBtn.disabled = slideNumber === 1;
+            nextBtn.disabled = slideNumber === totalSlides;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fejlesztési Térkép - Szoftverfejlesztői MI Felfedezők</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Professional Indigo -->
+    <!-- Application Structure Plan: The SPA is structured as a two-column dashboard on desktop to provide a clear overview and detailed information simultaneously. On mobile, it collapses into a single column for a seamless experience. The left side features an interactive list of the "Fejlesztési térkép" levels, while the right side displays a detailed description of the selected level and a summary of the scoring system. This architecture allows users to explore the progression and costs without losing context. -->
+    <!-- Visualization & Content Choices: Report Info: Development Map Levels, Scoring System -> Goal: Organize, Inform, and Explain -> Viz/Presentation: Interactive cards for each level, a dynamic content area for descriptions, and a static list for the scoring system -> Interaction: A click on a level card updates the dynamic content area with relevant text and highlights the active card. This method provides an intuitive, non-linear exploration path. All content is driven by a JavaScript object. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .card { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); }
+        .card.active { border-color: #4f46e5; background-color: #f1f5f9; }
+        .slide-in { animation: slideIn 0.5s forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <header class="text-center mb-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight">Fejlesztési térkép</h1>
+        <p class="mt-4 text-xl text-slate-600 max-w-2xl mx-auto">
+            Ez a weboldal bemutatja a "Szoftverfejlesztői MI felfedezők" modul fejlesztési térképének szintjeit, segítve a csapatokat a stratégia megtervezésében. Kattintson egy szintre a részletekért!
+        </p>
+    </header>
+
+    <div class="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <!-- Bal oldali oszlop: Fejlesztési térkép szintek -->
+        <section class="lg:col-span-2 space-y-6">
+            <h2 class="text-2xl font-bold text-slate-800">A Fejlesztési térkép szintjei</h2>
+            <div id="level-list" class="grid sm:grid-cols-2 gap-4">
+                <!-- Level cards will be injected here by JS -->
+            </div>
+            
+            <div id="level-details-container" class="mt-8 bg-white p-6 rounded-2xl shadow-lg border border-slate-200 min-h-[300px] flex items-center justify-center text-center text-slate-500">
+                <p id="level-details-placeholder" class="font-medium text-lg">Válasszon egy szintet a fenti kártyák közül a részletek megtekintéséhez.</p>
+                <div id="level-details" class="hidden text-left w-full">
+                    <h3 id="detail-title" class="text-3xl font-bold text-slate-800 mb-2"></h3>
+                    <p id="detail-cost" class="text-lg text-indigo-600 mb-4 font-semibold"></p>
+                    <p id="detail-description" class="text-slate-700"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jobb oldali oszlop: Pontozási rendszer -->
+        <aside class="lg:col-span-1 h-fit bg-white p-6 rounded-2xl shadow-lg border border-slate-200 lg:sticky top-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">Pontozási rendszer</h2>
+            <div id="scoring-system" class="space-y-4 text-slate-700">
+                <div class="flex justify-between items-center pb-2 border-b">
+                    <span class="font-semibold">Kezdőpontok:</span>
+                    <span class="text-indigo-600 font-bold">+50 TIP</span>
+                </div>
+                <div class="flex justify-between items-center pb-2 border-b">
+                    <span class="font-semibold">Villámkvíz:</span>
+                    <span class="text-emerald-600 font-bold">+5 TIP / helyes válasz</span>
+                </div>
+                <div class="flex justify-between items-center pb-2 border-b">
+                    <span class="font-semibold">Fejlesztési beruházások:</span>
+                    <span class="text-red-600 font-bold">Lásd a szinteknél</span>
+                </div>
+                <div class="flex justify-between items-center pb-2 border-b">
+                    <span class="font-semibold">Kihívás kártyák:</span>
+                    <span class="text-red-600 font-bold">-10 - -20 TIP</span>
+                </div>
+                <div class="space-y-2 mt-4 pt-4 border-t">
+                    <h3 class="font-bold text-lg text-slate-800">Bónusz lehetőségek:</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-base">
+                        <li>Kreatív megoldás: <span class="text-emerald-600 font-bold">+10 TIP</span></li>
+                        <li>Technikai pontosság: <span class="text-emerald-600 font-bold">+5 TIP</span></li>
+                        <li>Prezentációs készség: <span class="text-emerald-600 font-bold">+5 TIP</span></li>
+                        <li>Csapatmunka: <span class="text-emerald-600 font-bold">+5 TIP</span></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const levels = [
+            { id: 1, name: "Ml alapok", cost: "+50 TIP", description: "Alapvető mesterséges intelligencia fogalmak megértése és alkalmazása. Ez a szint a kiindulópont, és a csapatok ezzel a pontszámmal indulnak." },
+            { id: 2, name: "Szoftverfejlesztői MI motor", cost: "-15 TIP", description: "Az első beruházás az MI-be. A csapatok megtanulják, hogyan integrálhatnak egy egyszerű MI-motort a fejlesztési folyamatba, például kódgenerálásra vagy hibajavításra." },
+            { id: 3, name: "Kódadatok elemzése", cost: "-20 TIP", description: "A kód elemzésére és a minták felismerésére szolgáló fejlettebb MI-eszközök megismerése. Ez a szint lehetővé teszi a prediktív hibakeresést és a kód refaktorálását." },
+            { id: 4, name: "Szoftverfejlesztés 4.0 integráció", cost: "-20 TIP", description: "Az MI beépítése a teljes szoftverfejlesztési életciklusba, a tervezéstől a tesztelésig. A csapatok megtanulják, hogyan lehet automatizált tesztelési folyamatokat létrehozni MI-alapú rendszerekkel." },
+            { id: 5, name: "Autonóm fejlesztési rendszerek", cost: "-30 TIP", description: "Az autonóm szoftverfejlesztési rendszerek alapjainak elsajátítása, ahol az MI képes önállóan kisebb fejlesztési feladatokat elvégezni. Ez a legmagasabb beruházási szint." },
+            { id: 6, name: "MI mester", cost: "Csak a legjobb csapat érheti el", description: "A legkiemelkedőbb csapatoknak járó cím, akik bizonyították, hogy mesterien kezelik az összes MI-koncepciót és sikeresen modernizálták a szoftverfejlesztési stúdiót." }
+        ];
+
+        const levelList = document.getElementById('level-list');
+        const detailTitle = document.getElementById('detail-title');
+        const detailCost = document.getElementById('detail-cost');
+        const detailDescription = document.getElementById('detail-description');
+        const levelDetailsContainer = document.getElementById('level-details-container');
+        const levelDetails = document.getElementById('level-details');
+        const placeholder = document.getElementById('level-details-placeholder');
+
+        function createLevelCard(level) {
+            const card = document.createElement('div');
+            card.classList.add('card', 'bg-white', 'p-6', 'rounded-2xl', 'shadow-md', 'border', 'border-slate-200');
+            card.setAttribute('data-level-id', level.id);
+
+            const title = document.createElement('h3');
+            title.classList.add('text-lg', 'font-bold', 'text-slate-800');
+            title.textContent = `${level.id}. ${level.name}`;
+            card.appendChild(title);
+
+            const cost = document.createElement('p');
+            cost.classList.add('mt-2', 'font-semibold', level.cost.includes('+') ? 'text-emerald-600' : (level.cost.includes('-') ? 'text-red-600' : 'text-indigo-600'));
+            cost.textContent = level.cost;
+            card.appendChild(cost);
+
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                displayLevelDetails(level);
+            });
+
+            return card;
+        }
+
+        function displayLevelDetails(level) {
+            placeholder.classList.add('hidden');
+            levelDetails.classList.remove('hidden');
+
+            detailTitle.textContent = `${level.id}. ${level.name}`;
+            detailCost.textContent = level.cost;
+            detailDescription.textContent = level.description;
+
+            levelDetailsContainer.classList.remove('slide-in');
+            void levelDetailsContainer.offsetWidth; // Force reflow to restart animation
+            levelDetailsContainer.classList.add('slide-in');
+        }
+
+        levels.forEach(level => {
+            levelList.appendChild(createLevelCard(level));
+        });
+
+    </script>
+</body>
+</html>

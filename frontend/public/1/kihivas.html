@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Küldetés I. Fázis: Szoftverfejlesztési kihívások</title>
+    <!-- Tailwind CSS betöltése -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Fő konténer -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-6xl w-full p-8 md:p-12 border-4 border-green-500">
+        
+        <!-- Cím és alcím szekció -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-green-600 mb-2">Küldetés I. fázis</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-gray-800">A szoftverfejlesztési kihívások feltárása</h2>
+            <p class="text-md md:text-lg text-gray-500 mt-2 italic">A szoftverfejlesztői MI szakértők feladata</p>
+        </header>
+
+        <!-- Kihívások szekció -->
+        <main class="grid md:grid-cols-2 gap-8">
+            <!-- Kihívás 1 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-red-500">
+                <h3 class="text-xl font-bold text-red-600 mb-3">1. Szoftverfejlesztési projekt jelentés: "A kaotikus kód"</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Egy hagyományos szoftvercég arról számol be, hogy a kód karbantartása egyre nehezebb.
+                    A kódbázis rendezetlen, sokszor előfordulnak váratlan hibák, és a dokumentáció hiányos.
+                    Az új funkciók hozzáadása lassan halad, mert a fejlesztők sok időt töltenek a meglévő kód megértésével.
+                </p>
+                <div class="bg-red-50 p-4 rounded-lg">
+                    <p class="font-semibold text-red-700">Feladat:</p>
+                    <p class="text-red-600">Azonosíts 2-3 területet, ahol az MI segíthet a kódminőség javításában és a karbantartás megkönnyítésében!</p>
+                </div>
+            </div>
+
+            <!-- Kihívás 2 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500">
+                <h3 class="text-xl font-bold text-blue-600 mb-3">2. Szoftverfejlesztési projekt jelentés: "A lassú ciklus"</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Egy másik cég a fejlesztési ciklus hosszúságával küzd. A kódírás, a tesztelés és a
+                    telepítés rengeteg időt vesz igénybe. A manuális tesztelés különösen lassú, és
+                    gyakran csak a legfontosabb funkciókra terjed ki. A kódfrissítések a felhasználókhoz
+                    csak hetek múlva jutnak el, ami rontja a versenyképességet.
+                </p>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold text-blue-700">Feladat:</p>
+                    <p class="text-blue-600">Mely területeken tudná az MI felgyorsítani a fejlesztési folyamatokat,
+                        a kódírástól a telepítésig?</p>
+                </div>
+            </div>
+
+            <!-- Kihívás 3 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-purple-500">
+                <h3 class="text-xl font-bold text-purple-600 mb-3">3. Szoftverfejlesztési projekt jelentés: "Az eltemetett hiba"</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Egy szoftvercégnél gyakori problémát jelent, hogy a felhasználóktól érkező
+                    hibaüzenetek alapján nehéz megtalálni a probléma gyökerét. A hibakeresés
+                    időigényes és frusztráló, a fejlesztők sok időt töltenek a kód "bogarászásával"
+                    ahelyett, hogy új funkciókat hoznának létre. A hiba kijavítása után pedig
+                    gyakran újabb problémák merülnek fel máshol.
+                </p>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <p class="font-semibold text-purple-700">Feladat:</p>
+                    <p class="text-purple-600">Hogyan segíthet az MI a hibakeresésben és a hibák megelőzésében?</p>
+                </div>
+            </div>
+
+            <!-- Kihívás 4 -->
+            <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-green-500">
+                <h3 class="text-xl font-bold text-green-600 mb-3">4. Szoftverfejlesztési projekt jelentés: "Az elakadt innováció"</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Egy startup arról panaszkodik, hogy az innovatív ötleteik megvalósítása
+                    lassan halad, mert a fejlesztőcsapat a rutin feladatokra és a meglévő
+                    kód karbantartására fókuszál. A kód nagyrésze sablonos, ismétlődő
+                    részleteket tartalmaz, amelyeknek a megírása sok időt emészt fel. A
+                    csapat kreativitása és motivációja csökken.
+                </p>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <p class="font-semibold text-green-700">Feladat:</p>
+                    <p class="text-green-600">Mely MI-alapú eszközök segíthetik a fejlesztőket abban,
+                        hogy a rutinfeladatok helyett az innovációra koncentráljanak?</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Lábjegyzet -->
+        <footer class="text-center mt-10 text-gray-400 text-sm">
+            <p>Szoftverfejlesztői MI műhely kihívásai.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
