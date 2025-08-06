@@ -1,0 +1,50 @@
+/* src/components/dashboard/Dashboard.css */
+.dashboard-section {
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-section h2 {
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.achievement-list,
+.leaderboard-list,
+.progress-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievement-item,
+.leaderboard-list li,
+.progress-item {
+  margin-bottom: 0.75rem;
+}
+
+.leaderboard-list li.current-user {
+  font-weight: bold;
+  color: #61dafb;
+}
+
+.progress-bar {
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  flex: 1;
+  margin: 0 0.5rem;
+  height: 12px;
+}
+
+.progress-fill {
+  background: #06b6d4;
+  height: 100%;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+}

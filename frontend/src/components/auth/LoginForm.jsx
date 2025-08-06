@@ -55,7 +55,7 @@ const LoginForm = ({ onSwitchToRegister, onSuccess }) => {
     <div className="auth-form-container">
       <div className="auth-header">
         <h2>🔐 Bejelentkezés</h2>
-        <p>Üdvözöl vissza a MI Szoftvertechnikus Platformon!</p>
+        <p>Üdvözlünk újra a MI szoftvertechnikus platformon!</p>
       </div>
 
       {errors.general && (

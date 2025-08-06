@@ -1,18 +1,28 @@
 /* src/App.css */
+
+/* Minden nézet egységes háttere */
 .App {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 100vh;
   text-align: center;
 }
 
+/* Fejléc és vendég-nézet */
 .App-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 40px 20px;
-  color: white;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
+}
+
+/* Belépett nézet törzse */
+.authenticated-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Platform Header */
@@ -34,41 +44,86 @@
   font-weight: 300;
 }
 
-/* Status Dashboard */
-.status-dashboard {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 40px;
-  padding: 20px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
+/* Dashboard statisztikák */
+.user-welcome h1 {
+  color: #61dafb;
+  margin-bottom: 20px;
 }
 
-.status-item {
+.user-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
 }
 
-.status-label {
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.stat-label {
   font-size: 0.9rem;
   opacity: 0.8;
-  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
-.status-value {
-  font-size: 1.1rem;
-  font-weight: bold;
+/* Akciógombok */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-/* Features Grid */
+.primary-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+}
+
+.secondary-button {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Leckék nézet */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
   gap: 20px;
-  margin-bottom: 40px;
-  width: 100%;
+  margin: 40px auto;
   max-width: 800px;
 }
 
@@ -98,170 +153,13 @@
   line-height: 1.4;
 }
 
-/* Development Info */
-.dev-info {
-  background: rgba(0,0,0,0.2);
-  padding: 25px;
-  border-radius: 15px;
-  margin-bottom: 30px;
-  max-width: 600px;
+/* Vendég nézet gyorslinkek */
+.features-grid, .guest-view, .authenticated-app {
   width: 100%;
+  padding: 20px;
 }
 
-.dev-info h4 {
-  margin-bottom: 15px;
-  color: #61dafb;
-}
-
-.dev-info ul {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-}
-
-.dev-info li {
-  padding: 8px 0;
-  font-size: 0.9rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.dev-info li:last-child {
-  border-bottom: none;
-}
-
-/* Quick Links */
-.quick-links {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.link-button {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.link-button:hover {
-  background: rgba(255,255,255,0.3);
-  border-color: rgba(255,255,255,0.5);
-  transform: scale(1.05);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .platform-title {
-    font-size: 2rem;
-  }
-  
-  .status-dashboard {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .quick-links {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-/* src/App.css - kiegészítés */
-.logged-in-view {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.user-welcome h1 {
-  color: #61dafb;
-  margin-bottom: 20px;
-}
-
-.user-stats {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ffd700;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-top: 5px;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.primary-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-}
-
-.primary-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
-
-.secondary-button {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.secondary-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.guest-view {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.auth-actions {
-  margin-top: 40px;
-}
-
+/* Betöltés animáció */
 .loading {
   display: flex;
   flex-direction: column;
@@ -272,13 +170,46 @@
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 4px solid rgba(255,255,255,0.3);
   border-top: 4px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
+/* src/App.css kiegészítés */
+
+/* Navigációs gombok egységes stílusa */
+.nav-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+}
+
+.nav-item.active {
+  box-shadow: 0 0 0 3px rgba(255,215,0,0.6);
+}
+
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Modal stílus, ha szükséges */
+.modal-overlay {
+  background: rgba(0,0,0,0.7);
 }

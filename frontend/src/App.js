@@ -3,12 +3,18 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import AuthModal from './components/auth/AuthModal';
 import LessonsList from './components/lessons/LessonsList';
+import Modal from './components/Modal';
+import Quiz from './components/Quiz';
 import './App.css';
+import Achievements from './components/dashboard/Achievements';
+import Leaderboard from './components/dashboard/Leaderboard';
+import Progress from './components/dashboard/Progress';
 
 const AppContent = () => {
   const { user, logout, loading } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [currentView, setCurrentView] = useState('dashboard');
+  const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
 
   if (loading) {
     return (
@@ -23,48 +29,8 @@ const AppContent = () => {
     );
   }
 
-  const renderCurrentView = () => {
-    switch (currentView) {
-      case 'lessons':
-        return <LessonsList />;
-      default:
-        return (
-          <div className="dashboard">
-            <div className="user-welcome">
-              <h1>🎯 Üdvözöl, {user.username}!</h1>
-              <div className="user-stats">
-                <div className="stat-item">
-                  <span className="stat-value">{user.total_points}</span>
-                  <span className="stat-label">Pont</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-value">{user.current_rank}</span>
-                  <span className="stat-label">Rang</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="action-buttons">
-              <button 
-                className="primary-button"
-                onClick={() => setCurrentView('lessons')}
-              >
-                📚 Leckék
-              </button>
-              <button className="primary-button">
-                🏆 Rangsor
-              </button>
-              <button 
-                className="secondary-button"
-                onClick={logout}
-              >
-                🚪 Kijelentkezés
-              </button>
-            </div>
-          </div>
-        );
-    }
-  };
+  const openModuleOverview = () => setIsModuleModalOpen(true);
+  const closeModuleModal = () => setIsModuleModalOpen(false);
 
   return (
     <div className="App">
@@ -72,32 +38,81 @@ const AppContent = () => {
         <div className="authenticated-app">
           <nav className="app-navigation">
             <div className="nav-brand">
-              <h2>🧠 MI Platform</h2>
+              <h2>🧠 MI platform</h2>
             </div>
             <div className="nav-menu">
-              <button 
+              <button
                 className={`nav-item ${currentView === 'dashboard' ? 'active' : ''}`}
                 onClick={() => setCurrentView('dashboard')}
               >
                 🏠 Dashboard
               </button>
-              <button 
+              <button
                 className={`nav-item ${currentView === 'lessons' ? 'active' : ''}`}
                 onClick={() => setCurrentView('lessons')}
               >
                 📚 Leckék
               </button>
-            </div>
-            <div className="nav-user">
-              <span>{user.username}</span>
-              <button onClick={logout} className="logout-btn">
-                🚪
+              <button
+                className={`nav-item ${currentView === 'quiz' ? 'active' : ''}`}
+                onClick={() => setCurrentView('quiz')}
+              >
+                📝 Villámkvíz
               </button>
             </div>
+            <div className="nav-user">
+              
+            </div>
           </nav>
-          
+
           <main className="app-main">
-            {renderCurrentView()}
+            {currentView === 'dashboard' && (
+              <div className="dashboard">
+                <div className="user-welcome">
+                  <h1>🎯 Üdvözlünk, {user.username}!</h1>
+                  <div className="user-stats">
+                    <div className="stat-item">
+                      <span className="stat-value">{user.total_points}</span>
+                      <span className="stat-label">Pont</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-value">{user.current_rank}</span>
+                      <span className="stat-label">Rang</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="action-buttons">
+                  <button
+                    className="primary-button"
+                    onClick={() => setCurrentView('lessons')}
+                  >
+                    📚 Leckék
+                  </button>
+                  <button
+                    className="primary-button"
+                    onClick={openModuleOverview}
+                  >
+                    📖 Első modul áttekintés
+                  </button>
+                  <button
+                    className="primary-button"
+                    onClick={() => setCurrentView('quiz')}
+                  >
+                    📝 Villámkvíz
+                  </button>
+                  <button
+                    className="secondary-button"
+                    onClick={logout}
+                  >
+                    🚪 Kijelentkezés
+                  </button>
+                </div>
+              </div>
+            )}
+            {currentView === 'lessons' && <LessonsList />}
+            {currentView === 'quiz' && (
+              <Quiz onPassed={() => setCurrentView('lessons')} />
+            )}
           </main>
         </div>
       ) : (
@@ -105,13 +120,12 @@ const AppContent = () => {
           <div className="guest-view">
             <div className="platform-header">
               <h1 className="platform-title">
-                🧠 MI Szoftvertechnikus Platform
+                🧠 MI Szoftvertechnikus platform
               </h1>
               <div className="platform-subtitle">
                 Gamifikált tanulási élmény szoftverfejlesztőknek
               </div>
             </div>
-
             <div className="features-grid">
               <div className="feature-card">
                 <h3>🎮 Gamifikáció</h3>
@@ -126,9 +140,8 @@ const AppContent = () => {
                 <p>Teljes MI tananyag szoftverfejlesztőknek</p>
               </div>
             </div>
-
             <div className="auth-actions">
-              <button 
+              <button
                 className="primary-button"
                 onClick={() => setAuthModalOpen(true)}
               >
@@ -139,10 +152,30 @@ const AppContent = () => {
         </header>
       )}
 
-      <AuthModal 
+      <AuthModal
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
       />
+
+      <Modal
+        isOpen={isModuleModalOpen}
+        onClose={closeModuleModal}
+        title="Az MI körülvesz minket – Kiképzés I"
+      >
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <button
+            className="primary-button"
+            onClick={() =>
+              window.open(
+                'https://gemini.google.com/share/ade75c86924d',
+                '_blank'
+              )
+            }
+          >
+            Gemini oktatóanyag megnyitása
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

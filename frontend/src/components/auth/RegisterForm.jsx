@@ -64,7 +64,7 @@ const RegisterForm = ({ onSwitchToLogin, onSuccess }) => {
     <div className="auth-form-container">
       <div className="auth-header">
         <h2>🎯 Regisztráció</h2>
-        <p>Csatlakozz a MI Szoftvertechnikus Platformhoz!</p>
+        <p>Csatlakozz az MI szoftvertechnikus platformhoz!</p>
       </div>
 
       {errors.general && (

@@ -1,67 +1,76 @@
-// server/routes/pitches.js
+// server/routes/progress.js
 const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/auth');
 const db = require('../models');
 
-// Pitch beküldése
-router.post('/', authenticateToken, async (req, res) => {
+// Haladás frissítése - ez hiányzott!
+router.put('/:lessonId', authenticateToken, async (req, res) => {
   try {
-    const { lesson_id, pitch_text } = req.body;
-    const user_id = req.user.id;
+    const { lessonId } = req.params;
+    const userId = req.user.id;
+    const { status = 'completed', completion_percentage = 100 } = req.body;
 
-    // Új pitch létrehozása
-    const pitch = await db.Pitch.create({
-      user_id,
-      lesson_id,
-      pitch_text,
-      evaluation_status: 'pending'
-    });
-
-    res.status(201).json({
-      message: 'Pitch sikeresen beküldve! 🚀',
-      pitch: {
-        id: pitch.id,
-        lesson_id: pitch.lesson_id,
-        pitch_text: pitch.pitch_text,
-        evaluation_status: pitch.evaluation_status,
-        submission_date: pitch.submission_date
+    // Ellenőrizzük, hogy létezik-e már haladás
+    let progress = await db.UserProgress.findOne({
+      where: { 
+        user_id: userId, 
+        lesson_id: lessonId 
       }
     });
+
+    if (progress) {
+      // Frissítsük a meglévő haladást
+      progress = await progress.update({
+        status,
+        completion_percentage,
+        updated_at: new Date()
+      });
+    } else {
+      // Hozzunk létre új haladást
+      progress = await db.UserProgress.create({
+        user_id: userId,
+        lesson_id: lessonId,
+        status,
+        completion_percentage
+      });
+    }
+
+    res.json({
+      message: 'Haladás sikeresen frissítve! ✅',
+      progress
+    });
+
   } catch (error) {
-    console.error('Pitch beküldése hiba:', error);
+    console.error('Haladás frissítése hiba:', error);
     res.status(500).json({
-      message: 'Pitch beküldése sikertelen',
+      message: 'Haladás frissítése sikertelen',
       error: error.message
     });
   }
 });
 
-// Felhasználó pitch-einek lekérése
+// Felhasználó haladásának lekérése
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const pitches = await db.Pitch.findAll({
+    const progress = await db.UserProgress.findAll({
       where: { user_id: req.user.id },
       include: [{
         model: db.Lesson,
         as: 'lesson',
         attributes: ['id', 'title', 'module_number']
-      }, {
-        model: db.PitchEvaluation,
-        as: 'evaluation',
-        required: false
       }],
-      order: [['submission_date', 'DESC']]
+      order: [['updated_at', 'DESC']]
     });
 
     res.json({
-      message: 'Pitch-ek sikeresen betöltve',
-      pitches
+      message: 'Haladás sikeresen betöltve',
+      progress
     });
   } catch (error) {
-    console.error('Pitch-ek lekérése hiba:', error);
+    console.error('Haladás lekérése hiba:', error);
     res.status(500).json({
-      message: 'Pitch-ek betöltése sikertelen',
+      message: 'Haladás betöltése sikertelen',
       error: error.message
     });
   }

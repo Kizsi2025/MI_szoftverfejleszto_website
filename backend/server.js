@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Route-ok importálása - CSAK EGYSZER!
 const authRoutes = require('./server/routes/auth');
-const lessonsRoutes = require('./server/routes/lessons');  // <- CSAK egyszer!
+const lessonsRoutes = require('./server/routes/lesson'); // <- CSAK egyszer!
 const progressRoutes = require('./server/routes/progress');
 const pitchesRoutes = require('./server/routes/pitches');
 
